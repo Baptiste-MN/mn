@@ -111,11 +111,21 @@ const CFG={apiKey:"AIzaSyByf4SmnGJvfkkJVFhfINXikb8I8ge5VRU",
   messagingSenderId:"583651643354",appId:"1:583651643354:web:74b78c43316b9d657dfae3"};
 const auth=getAuth(initializeApp(CFG));
 
+/* ═══ Accès direction — à garder identique aux règles Firebase et à conges.html ═══ */
+const ADMINS=[
+  'baptiste@matiere-noire.paris',
+  'felix@matiere-noire.paris',
+  'pierre@matiere-noire.paris',
+  'sam@matiere-noire.paris'
+];
+const estAdmin=u=>!!u&&u.emailVerified&&ADMINS.includes((u.email||'').toLowerCase());
+
 function box(u,err){
+  const ok=estAdmin(u);
   document.querySelector('#auth-box').innerHTML = u
-    ? `<div class="auth"><span class="who">Connecté · ${esc(u.email)}</span>
+    ? `<div class="auth"><span class="who">${ok?'Connecté · '+esc(u.email):esc(u.email)+' — accès non autorisé'}</span>
         <button class="btn" id="out">Se déconnecter</button></div>`
-    : `<div class="auth"><span class="who">Ces outils contiennent les coûts et les marges du studio.</span>
+    : `<div class="auth"><span class="who">Espace réservé à la direction — coûts, marges et administration.</span>
         <button class="btn p" id="in">Se connecter avec Google</button>
         ${err?`<p class="err">${esc(err)}</p>`:''}</div>`;
   const i=document.querySelector('#in'), o=document.querySelector('#out');
@@ -128,12 +138,14 @@ function box(u,err){
   if(o) o.onclick=()=>signOut(auth);
 }
 onAuthStateChanged(auth,u=>{
+  const ok=estAdmin(u);
   box(u);
-  document.querySelector('#dir').innerHTML=DIRECTION.map(x=>carte(x,!u)).join('');
-  document.querySelector('#ft').textContent=u?'session ouverte':'accès direction verrouillé';
+  // les outils de direction ne s'affichent que pour les comptes autorisés
+  document.querySelector('#sec-dir').style.display = ok||!u ? '' : '';
+  document.querySelector('#dir').innerHTML = ok ? DIRECTION.map(x=>carte(x,false)).join('') : '';
+  document.querySelector('#ft').textContent = ok ? 'session ouverte' : 'accès direction verrouillé';
 });
 box(null);
-document.querySelector('#dir').innerHTML=DIRECTION.map(x=>carte(x,true)).join('');
 </script>
 </body>
 </html>
