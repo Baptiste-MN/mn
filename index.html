@@ -97,6 +97,7 @@ const DIRECTION=[
   {t:'Récap projets',d:'Marge des projets actifs, et son évolution sur 7 jours.',u:BASE+'/project-recap/',m:'lecture seule · en un coup d’œil'},
   {t:'Rentabilité',d:'Marge par projet, par phase et par personne.',u:BASE+'/dashboard-matiere-noire/',m:'lecture seule'},
   {t:'Administration',d:'Personnes, projets, devis, CJM, alias.',u:BASE+'/admin-matiere-noire/',m:'écriture · à manier avec soin'},
+  {t:'Bulletins de stage',d:'Gratifications mensuelles des stagiaires, export PDF.',u:BASE+'/paie-matiere-noire/',m:'direction · données personnelles'},
 ];
 
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -144,7 +145,8 @@ onAuthStateChanged(auth,u=>{
   box(u);
   // les outils de direction ne s'affichent que pour les comptes autorisés
   document.querySelector('#sec-dir').style.display = ok||!u ? '' : '';
-  document.querySelector('#dir').innerHTML = ok ? DIRECTION.map(x=>carte(x,false)).join('') : '';
+  const mail=((u&&u.email)||'').toLowerCase();
+  document.querySelector('#dir').innerHTML = ok ? DIRECTION.filter(x=>!x.only||x.only.includes(mail)).map(x=>carte(x,false)).join('') : '';
   document.querySelector('#ft').textContent = ok ? 'session ouverte' : 'accès direction verrouillé';
 });
 box(null);
