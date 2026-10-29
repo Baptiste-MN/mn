@@ -88,23 +88,23 @@ import {getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged}
 /* ═══ à ajuster si un repo change de nom ═══ */
 const BASE='https://baptiste-mn.github.io';
 const PUBLIC=[
-  {t:'Time tracking',d:'Saisir ses heures, projet par projet.',u:BASE+'/time-matiere-noire/',m:'quotidien · FR / EN'},
-  {t:'Congés',d:'Poser une absence et suivre ses soldes.',u:BASE+'/conges-matiere-noire/',m:'demandes et suivi'},
-  {t:'Planning',d:'Le planning partagé du studio.',u:BASE+'/planning-matiere-noire/',m:'lecture'},
-  {t:'Notes',d:'Tableau de notes partagé par toute l’équipe.',u:BASE+'/notes-matiere-noire/',m:'FR / EN'},
-  {t:'Wiki',d:'Les fiches pratiques du studio : outils, démarches, matériel.',u:BASE+'/wiki-matiere-noire/',m:'FR / EN'},
+  {t:'Time tracking',d:'Saisir ses heures, projet par projet.',u:BASE+'/time-matiere-noire/'},
+  {t:'Congés',d:'Poser une absence et suivre ses soldes.',u:BASE+'/conges-matiere-noire/'},
+  {t:'Planning',d:'Le planning partagé du studio.',u:BASE+'/planning-matiere-noire/'},
+  {t:'Notes',d:'Tableau de notes partagé par toute l’équipe.',u:BASE+'/notes-matiere-noire/'},
+  {t:'Wiki',d:'Les fiches pratiques du studio : outils, démarches, matériel.',u:BASE+'/wiki-matiere-noire/'},
 ];
 const DIRECTION=[
-  {t:'Récap projets',d:'Marge des projets actifs, et son évolution sur 7 jours.',u:BASE+'/project-recap/',m:'lecture seule · en un coup d’œil'},
-  {t:'Rentabilité',d:'Marge par projet, par phase et par personne.',u:BASE+'/dashboard-matiere-noire/',m:'lecture seule'},
-  {t:'Administration',d:'Personnes, projets, devis, CJM, alias.',u:BASE+'/admin-matiere-noire/',m:'écriture · à manier avec soin'},
-  {t:'Bulletins de stage',d:'Gratifications mensuelles des stagiaires, export PDF.',u:BASE+'/paie-matiere-noire/',m:'direction · données personnelles'},
+  {t:'Récap projets',d:'Marge des projets actifs, et son évolution sur 7 jours.',u:BASE+'/project-recap/'},
+  {t:'Rentabilité',d:'Marge par projet, par phase et par personne.',u:BASE+'/dashboard-matiere-noire/'},
+  {t:'Administration',d:'Personnes, projets, devis, CJM, alias.',u:BASE+'/admin-matiere-noire/'},
+  {t:'Bulletins de stage',d:'Gratifications mensuelles des stagiaires, export PDF.',u:BASE+'/paie-matiere-noire/'},
 ];
 
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const carte=(x,off)=>`<a class="tool${off?' off':''}" ${off?'':`href="${esc(x.u)}"`}>
   <div class="t">${esc(x.t)}${off?'<span class="pill k">verrouillé</span>':''}</div>
-  <div class="d">${esc(x.d)}</div><div class="m">${esc(x.m)}</div></a>`;
+  <div class="d">${esc(x.d)}</div></a>`;
 
 document.querySelector('#pub').innerHTML=PUBLIC.map(x=>carte(x,false)).join('');
 
